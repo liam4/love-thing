@@ -27,10 +27,19 @@ end
 function Events.template:runBackwards ()
   --[[
 
-    Called when the function is run, but only if we ended up on this event by
+    Called when the event is run, but only if we ended up on this event by
     going backwards.
 
     This is called before run.
+
+  ]]
+end
+
+function Events.template:restore ()
+  --[[
+
+    Called when we're going back FROM this event. State should be restored
+    here.
 
   ]]
 end
@@ -232,7 +241,7 @@ function Events:show (o)
   local event = Events:createTemplateEvent()
 
   function event:runForwards ()
-    wasVisible = o.visible
+    wasVisible = o.actor.visible
     o.actor:show(o.actor)
   end
 
@@ -249,7 +258,7 @@ function Events:hide (o)
   local event = Events:createTemplateEvent()
 
   function event:runForwards ()
-    wasVisible = o.visible
+    wasVisible = o.actor.visible
     o.actor:hide(o.actor)
   end
 

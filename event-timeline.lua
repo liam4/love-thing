@@ -20,7 +20,7 @@
   * ...
 
   However, sometimes the user will request the history to go back an event:
-  * current event -> cancel(); cleanup()
+  * current event -> cancel(); restore(); cleanup()
   * (move to previous event)
   * (go to the normal execution loop)
 
@@ -69,6 +69,10 @@ function Timeline:moveForwards (self)
 end
 
 function Timeline:moveBackwards (self)
+  if self.currentEvent then
+    self.currentEvent:restore()
+  end
+
   table.remove(self.historyStack)
   self.index = self.historyStack[#self.historyStack]
   self.currentEvent = self.events[self.index]
@@ -85,13 +89,41 @@ function Timeline:runNext (self)
   self.currentEvent:run()
 end
 
+function Timeline:runPrevious (self)
+  -- If we've gotten to the beginning of the event stack, we can't continue!
+  if #self.historyStack <= 1 then
+    return false
+  end
+
+  self:moveBackwards(self)
+  self.currentEvent:run()
+end
+
+function Timeline:scheduleBack (self)
+  --[[
+
+    Schedules going back in history; it won't actually go back until the
+    next update call.
+
+  ]]
+
+  self.willUpdateNext = false
+  self.willGoBack = true
+end
+
 function Timeline:update (self)
   if self.willUpdateNext then
     if self.currentEvent:update() then
       self.willUpdateNext = false
     end
   else
-    self:runNext(self)
+    if self.willGoBack then
+      self.willGoBack = false
+      self:runPrevious(self)
+    else
+      self:runNext(self)
+    end
+
     if not self.currentEvent:update() then
       self.willUpdateNext = true
     end

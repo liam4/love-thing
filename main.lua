@@ -65,6 +65,12 @@ function love.keypressed (key)
   if key == "escape" then
     local state = not love.mouse.isVisible()
     love.mouse.setVisible(state)
+    return
+  end
+
+  -- Pressing the left arrow key should go back in history.
+  if key == "left" then
+    timeline:scheduleBack(timeline)
   end
 
   timeline:gotKeypressed(timeline, key)
