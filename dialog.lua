@@ -1,22 +1,23 @@
 
 local Dialog = {}
 
-function Dialog:new (o)
-  o = o or {}
-  setmetatable(o, self)
-  self.__index = self
-  return o, self:init(o)
-end
-
 function Dialog:init (self)
   self.text = ""
   self.displayText = ""
   self.index = 0
+  self.isDone = true
+  self.actor = nil
 end
 
 function Dialog:setText (self, text)
   self.text = text
+  self.displayText = ""
   self.index = 0
+  self.isDone = false
+end
+
+function Dialog:setActor (self, actor)
+  self.actor = actor
 end
 
 function Dialog:update (self)
@@ -24,6 +25,8 @@ function Dialog:update (self)
     self.displayText = (self.displayText ..
       string.sub(self.text, self.index, self.index))
     self.index = self.index + 1
+  else
+    self.isDone = true
   end
 end
 
@@ -32,7 +35,13 @@ function Dialog:draw (self)
   local top = love.graphics.getHeight() - height
   local width = love.graphics.getWidth()
 
-  love.graphics.setColor(128, 40, 128, 128)
+  if self.actor then
+    local color = self.actor.color
+    love.graphics.setColor(color[1], color[2], color[3], 128)
+  else
+    love.graphics.setColor(0, 0, 0, 128)
+  end
+
   love.graphics.rectangle("fill", 0, top, width, height)
   love.graphics.line(0, top, width, top)
 

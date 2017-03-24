@@ -1,16 +1,9 @@
 
 local Actor = {}
 
-function Actor:new (o)
-  o = o or {}
-  setmetatable(o, self)
-  self.__index = self
-  return o, self:init(o)
-end
-
 function Actor:init (self)
-  self.x = -120
-  self.y = 40
+  self:setPosition(self, -120, 40)
+  self:setColor(self, 128, 128, 128)
 end
 
 function Actor:setPosition (self, x, y)
@@ -28,6 +21,12 @@ function Actor:setPose (self, image)
   self.oldPoseGhost = 0
 
   self.pose = image
+end
+
+function Actor:setColor (self, r, g, b)
+  -- The color that represents the actor in dialog boxes and such.
+
+  self.color = { r, g, b }
 end
 
 function Actor:draw (self)

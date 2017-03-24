@@ -1,29 +1,45 @@
 
+local util = require 'util'
 local Actor = require 'actor'
 local Dialog = require 'dialog'
+local Timeline = require 'event-timeline'
+local Events = require 'timeline-events'
 
 function love.load()
   love.window.setMode(1024, 800)
+  love.mouse.setVisible(false)
   love.graphics.setNewFont("font/Comfortaa-Regular.ttf", 30)
 
-  dialog = Dialog:new()
+  median = util:construct(Actor)
+  median:setColor(median, 255, 45, 185)
+
+  dialog = util:construct(Dialog)
   dialog:setText(dialog, "Okay..now what?")
 
-  avjoe = Actor:new()
-  avjoe:setPose(avjoe, love.graphics.newImage("image/avjoe1.png"))
+  timeline = util:construct(Timeline)
+  timeline:setEvents(timeline, {
+    Events:pose{actor=median, file='image/median1a.png'},
+    Events:dialog{actor=median, dialog=dialog, text='Hello..?'},
+    Events:pose{actor=median, file='image/median1.png'},
+    Events:dialog{actor=median, dialog=dialog, text='Nobody\'s home..'}
+  })
 end
 
 function love.update()
-  dialog:update(dialog)
+  timeline:update(timeline)
 end
 
 function love.draw()
-  avjoe:draw(avjoe)
+  median:draw(median)
   dialog:draw(dialog)
 end
 
-function love.mousepressed()
-  n = math.ceil(math.random() * 4)
+function love.keypressed (key)
+  -- Pressing the escape key should toggle the cursor visibility.
+  if key == "escape" then
+    local state = not love.mouse.isVisible()
+    love.mouse.setVisible(state)
+  end
 
-  avjoe:setPose(avjoe, love.graphics.newImage("image/avjoe" .. n .. ".png"))
+  timeline:gotKeypressed(timeline, key)
 end
