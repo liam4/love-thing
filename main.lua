@@ -1,6 +1,7 @@
 
 local util = require 'util'
 local Actor = require 'actor'
+local Backdrop = require 'backdrop'
 local Dialog = require 'dialog'
 local Timeline = require 'event-timeline'
 local Events = require 'timeline-events'
@@ -10,6 +11,12 @@ function love.load()
   love.mouse.setVisible(false)
   love.graphics.setNewFont("font/Comfortaa-Regular.ttf", 30)
 
+  dialog = util:construct(Dialog)
+  dialog:setText(dialog, "Okay..now what?")
+
+  backdrop = util:construct(Backdrop)
+  backdrop:setImage(backdrop, love.graphics.newImage("image/trebolbgs4a.png"))
+
   median = util:construct(Actor)
   median:setName(median, 'Median')
   median:setColor(median, 132, 9, 93)
@@ -18,10 +25,7 @@ function love.load()
   beleth = util:construct(Actor)
   beleth:setName(beleth, 'Beleth')
   beleth:setColor(beleth, 210, 46, 130)
-  beleth:setPosition(beleth, 0, 40)
-
-  dialog = util:construct(Dialog)
-  dialog:setText(dialog, "Okay..now what?")
+  beleth:setPosition(beleth, 0, 30)
 
   timeline = util:construct(Timeline)
   timeline:setEvents(timeline, {
@@ -47,6 +51,13 @@ function love.load()
     Events:group{
       Events:pose{actor=beleth, file='image/beleth1c.png'},
       Events:dialog{actor=beleth, dialog=dialog, text='What was that..?'}
+    },
+    Events:group{
+      Events:pose{actor=median, file='image/median2.png'},
+      Events:hide{actor=beleth},
+      Events:show{actor=median},
+      Events:setBackdrop{backdrop=backdrop, file='image/trebolbgs4b.png'},
+      Events:dialog{actor=median, dialog=dialog, text='Where could they have gotten to..?'}
     }
   })
 end
@@ -56,6 +67,7 @@ function love.update()
 end
 
 function love.draw()
+  backdrop:draw(backdrop)
   median:draw(median)
   beleth:draw(beleth)
   dialog:draw(dialog)

@@ -279,4 +279,22 @@ function Events:hideDialog (o)
   return event
 end
 
+function Events:setBackdrop (o)
+  local event = Events:createTemplateEvent()
+
+  local oldImage = nil
+
+  function event:runForwards ()
+    oldImage = o.backdrop.image
+
+    o.backdrop:setImage(o.backdrop, love.graphics.newImage(o.file))
+  end
+
+  function event:restore ()
+    o.backdrop:setImage(o.backdrop, oldImage)
+  end
+
+  return event
+end
+
 return Events
