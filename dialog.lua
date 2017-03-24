@@ -11,6 +11,8 @@ function Dialog:init (self)
   self.index = 0
   self.isDone = true
   self.actor = nil
+
+  self.color = { 128, 128, 128 }
 end
 
 function Dialog:setText (self, text)
@@ -34,17 +36,24 @@ function Dialog:update (self)
   end
 end
 
+function Dialog:interpolateColor (self, color)
+  self.color[1] = self.color[1] + 0.1 * (color[1] - self.color[1])
+  self.color[2] = self.color[2] + 0.1 * (color[2] - self.color[2])
+  self.color[3] = self.color[3] + 0.1 * (color[3] - self.color[3])
+end
+
 function Dialog:draw (self)
   local height = 180
   local top = love.graphics.getHeight() - height
   local width = love.graphics.getWidth()
 
   if self.actor then
-    local color = self.actor.color
-    love.graphics.setColor(color[1], color[2], color[3], 128)
+    self:interpolateColor(self, self.actor.color)
   else
-    love.graphics.setColor(0, 0, 0, 128)
+    self:interpolateColor(self, {128, 128, 128})
   end
+
+  love.graphics.setColor(self.color[1], self.color[2], self.color[3], 128)
 
   love.graphics.rectangle("fill", 0, top, width, height)
   love.graphics.line(0, top, width, top)
