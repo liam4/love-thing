@@ -1,6 +1,10 @@
 
 local Dialog = {}
 
+local fontFile = "font/Comfortaa-Regular.ttf"
+local speechFont = love.graphics.newFont(fontFile, 32)
+local labelFont = love.graphics.newFont(fontFile, 24)
+
 function Dialog:init (self)
   self.text = ""
   self.displayText = ""
@@ -46,7 +50,33 @@ function Dialog:draw (self)
   love.graphics.line(0, top, width, top)
 
   love.graphics.setColor(255, 255, 255)
+  love.graphics.setFont(speechFont)
   love.graphics.print(self.displayText, 40, top + 40)
+
+  if self.actor then
+    local labelWidth = 240
+    local labelHeight = 40
+    local labelTop = top - labelHeight
+    local labelLeft = 0
+
+    love.graphics.stencil(function ()
+      love.graphics.rectangle("fill",
+        labelLeft, labelTop, labelWidth, labelHeight)
+    end)
+
+    love.graphics.setStencilTest("greater", 0)
+
+    local color = self.actor.color
+    love.graphics.setColor(color[1], color[2], color[3], 200)
+    love.graphics.rectangle("fill",
+      labelLeft, labelTop, labelWidth, labelHeight)
+
+    love.graphics.setColor(255, 255, 255)
+    love.graphics.setFont(labelFont)
+    love.graphics.print(self.actor.name, labelLeft + 20, top - 33)
+
+    love.graphics.setStencilTest()
+  end
 end
 
 return Dialog

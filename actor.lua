@@ -4,6 +4,7 @@ local Actor = {}
 function Actor:init (self)
   self:setPosition(self, -120, 40)
   self:setColor(self, 128, 128, 128)
+  self:setName(self, 'Unnamed Actor')
 end
 
 function Actor:setPosition (self, x, y)
@@ -27,6 +28,12 @@ function Actor:setColor (self, r, g, b)
   -- The color that represents the actor in dialog boxes and such.
 
   self.color = { r, g, b }
+end
+
+function Actor:setName (self, name)
+  -- The name that represents the actor. Human-readable, obviously.
+
+  self.name = name
 end
 
 function Actor:draw (self)

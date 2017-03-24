@@ -11,7 +11,8 @@ function love.load()
   love.graphics.setNewFont("font/Comfortaa-Regular.ttf", 30)
 
   median = util:construct(Actor)
-  median:setColor(median, 255, 45, 185)
+  median:setName(median, 'Median')
+  median:setColor(median, 132, 9, 93)
 
   dialog = util:construct(Dialog)
   dialog:setText(dialog, "Okay..now what?")
