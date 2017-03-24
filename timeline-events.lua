@@ -121,6 +121,61 @@ function Events:waitForInput ()
   return event
 end
 
+function Events:group (events)
+  --[[
+
+    Groups functions together so that they can all be treated as a single
+    event in the history stack.
+
+  ]]
+
+  local event = Events:createTemplateEvent()
+
+  function event:run ()
+    for count = 1, #events do
+      events[count]:run()
+    end
+  end
+
+  function event:runForwards ()
+    for count = 1, #events do
+      events[count]:runForwards()
+    end
+  end
+
+  function event:runBackwards ()
+    for count = 1, #events do
+      events[count]:runBackwards()
+    end
+  end
+
+  function event:restore ()
+    for count = 1, #events do
+      events[count]:restore()
+    end
+  end
+
+  function event:gotKeypressed (...)
+    for count = 1, #events do
+      events[count]:gotKeypressed(...)
+    end
+  end
+
+  function event:update ()
+    local allDone = true
+
+    for count = 1, #events do
+      if not events[count]:update() then
+        allDone = false
+      end
+    end
+
+    return allDone
+  end
+
+  return event
+end
+
 function Events:dialog (o)
   local event = Events:createTemplateEvent()
 

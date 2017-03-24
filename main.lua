@@ -25,18 +25,28 @@ function love.load()
 
   timeline = util:construct(Timeline)
   timeline:setEvents(timeline, {
-    Events:pose{actor=beleth, file='image/beleth1.png'},
-    Events:pose{actor=median, file='image/median1a.png'},
-    Events:show{actor=median},
-    Events:dialog{actor=median, dialog=dialog, text='Hello..?'},
-    Events:pose{actor=median, file='image/median1.png'},
-    Events:dialog{actor=median, dialog=dialog, text='Nobody\'s home..'},
-    Events:hide{actor=median},
-    Events:waitForInput(),
-    Events:show{actor=beleth},
-    Events:dialog{actor=beleth, dialog=dialog, text='Wait, what?'},
-    Events:pose{actor=beleth, file='image/beleth1c.png'},
-    Events:dialog{actor=beleth, dialog=dialog, text='What was that..?'},
+    Events:group{
+      Events:pose{actor=beleth, file='image/beleth1.png'},
+      Events:pose{actor=median, file='image/median1a.png'},
+      Events:show{actor=median},
+      Events:dialog{actor=median, dialog=dialog, text='Hello..?'}
+    },
+    Events:group{
+      Events:pose{actor=median, file='image/median1.png'},
+      Events:dialog{actor=median, dialog=dialog, text='Nobody\'s home..'}
+    },
+    Events:group{
+      Events:hide{actor=median},
+      Events:waitForInput()
+    },
+    Events:group{
+      Events:show{actor=beleth},
+      Events:dialog{actor=beleth, dialog=dialog, text='Wait, what?'}
+    },
+    Events:group{
+      Events:pose{actor=beleth, file='image/beleth1c.png'},
+      Events:dialog{actor=beleth, dialog=dialog, text='What was that..?'}
+    }
   })
 end
 
