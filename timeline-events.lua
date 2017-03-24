@@ -159,13 +159,47 @@ function Events:pose (o)
 
   local event = Events:createTemplateEvent()
 
-  function event:runForwards()
+  function event:runForwards ()
     oldPose = o.actor.pose
     o.actor:setPose(o.actor, love.graphics.newImage(o.file))
   end
 
-  function event:restore()
+  function event:restore ()
     o.actor:setPose(o.actor, oldPose)
+  end
+
+  return event
+end
+
+function Events:show (o)
+  local wasVisible = nil
+
+  local event = Events:createTemplateEvent()
+
+  function event:runForwards ()
+    wasVisible = o.visible
+    o.actor:show(o.actor)
+  end
+
+  function event:restore ()
+    o.actor:setVisible(o.actor, wasVisible)
+  end
+
+  return event
+end
+
+function Events:hide (o)
+  local wasVisible = nil
+
+  local event = Events:createTemplateEvent()
+
+  function event:runForwards ()
+    wasVisible = o.visible
+    o.actor:hide(o.actor)
+  end
+
+  function event:restore ()
+    o.actor:setVisible(o.actor, wasVisible)
   end
 
   return event

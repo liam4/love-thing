@@ -13,16 +13,30 @@ function love.load()
   median = util:construct(Actor)
   median:setName(median, 'Median')
   median:setColor(median, 132, 9, 93)
+  median:setPosition(median, -120, 40)
+
+  beleth = util:construct(Actor)
+  beleth:setName(beleth, 'Beleth')
+  beleth:setColor(beleth, 210, 46, 130)
+  beleth:setPosition(beleth, 0, 40)
 
   dialog = util:construct(Dialog)
   dialog:setText(dialog, "Okay..now what?")
 
   timeline = util:construct(Timeline)
   timeline:setEvents(timeline, {
+    Events:pose{actor=beleth, file='image/beleth1.png'},
     Events:pose{actor=median, file='image/median1a.png'},
+    Events:show{actor=median},
     Events:dialog{actor=median, dialog=dialog, text='Hello..?'},
     Events:pose{actor=median, file='image/median1.png'},
-    Events:dialog{actor=median, dialog=dialog, text='Nobody\'s home..'}
+    Events:dialog{actor=median, dialog=dialog, text='Nobody\'s home..'},
+    Events:hide{actor=median},
+    Events:waitForInput(),
+    Events:show{actor=beleth},
+    Events:dialog{actor=beleth, dialog=dialog, text='Wait, what?'},
+    Events:pose{actor=beleth, file='image/beleth1c.png'},
+    Events:dialog{actor=beleth, dialog=dialog, text='What was that..?'},
   })
 end
 
@@ -32,6 +46,7 @@ end
 
 function love.draw()
   median:draw(median)
+  beleth:draw(beleth)
   dialog:draw(dialog)
 end
 
