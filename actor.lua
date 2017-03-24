@@ -102,14 +102,14 @@ function Actor:draw (self)
 
   if self.visible then
     if self.visibilityGhost < 1 then
-      self.visibilityOffsetX = self.visibilityOffsetX + 0.4 * (
-        0 - self.visibilityOffsetX)
+      local delta = 0 - self.visibilityOffsetX
+      self.visibilityOffsetX = self.visibilityOffsetX + 0.4 * delta
       self.visibilityGhost = self.visibilityGhost + 0.1
     end
   else
     if self.visibilityGhost > 0 then
-      self.visibilityOffsetX = self.visibilityOffsetX + 0.4 * (
-        -60 - self.visibilityOffsetX)
+      local delta = -60 - self.visibilityOffsetX
+      self.visibilityOffsetX = self.visibilityOffsetX + 0.4 * delta
       self.visibilityGhost = self.visibilityGhost - 0.1
     end
   end

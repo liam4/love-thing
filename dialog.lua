@@ -26,13 +26,6 @@ function Dialog:setText (self, text)
   self.isDone = false
 end
 
--- [nil -> Median]
--- [Median -> Beleth]
-
--- nil == median? nil -> median
--- median == median?
--- beleth == median? median -> beleth
-
 function Dialog:setActor (self, actor)
   if not (actor == self.lastActor) then
     self.transitionActorAnim = 0
@@ -45,8 +38,8 @@ end
 
 function Dialog:update (self)
   if self.index <= string.len(self.text) then
-    self.displayText = (self.displayText ..
-      string.sub(self.text, self.index, self.index))
+    local nextChar = string.sub(self.text, self.index, self.index)
+    self.displayText = (self.displayText .. nextChar)
     self.index = self.index + 1
   else
     self.isDone = true
@@ -114,8 +107,8 @@ function Dialog:draw (self)
   end
 
   if self.transitionActorAnim < 1 then
-    self.transitionActorAnim = self.transitionActorAnim + 0.25 * (
-      1 - self.transitionActorAnim)
+    local delta = 1 - self.transitionActorAnim
+    self.transitionActorAnim = self.transitionActorAnim + 0.25 * delta
 
     if self.transitionActorAnim >= 1 then
       self.transitionActorAnim = 1
