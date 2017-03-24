@@ -269,4 +269,14 @@ function Events:hide (o)
   return event
 end
 
+function Events:hideDialog (o)
+  local event = Events:createTemplateEvent()
+
+  function event:run()
+    o.dialog:hide(o.dialog)
+  end
+
+  return event
+end
+
 return Events

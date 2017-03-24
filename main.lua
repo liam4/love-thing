@@ -37,6 +37,7 @@ function love.load()
     },
     Events:group{
       Events:hide{actor=median},
+      Events:hideDialog{dialog=dialog},
       Events:waitForInput()
     },
     Events:group{

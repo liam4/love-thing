@@ -5,6 +5,10 @@ local fontFile = "font/Comfortaa-Regular.ttf"
 local speechFont = love.graphics.newFont(fontFile, 32)
 local labelFont = love.graphics.newFont(fontFile, 24)
 
+local dialogHeight = 180
+local labelWidth = 240
+local labelHeight = 40
+
 function Dialog:init (self)
   self.text = ""
   self.displayText = ""
@@ -16,6 +20,9 @@ function Dialog:init (self)
   self.transitionActor = nil
   self.transitionActorAnim = 1
 
+  self:hide(self)
+  self.yOffset = self.yOffsetTarget
+
   self.lastActor = nil
 end
 
@@ -24,6 +31,7 @@ function Dialog:setText (self, text)
   self.displayText = ""
   self.index = 0
   self.isDone = false
+  self:show(self)
 end
 
 function Dialog:setActor (self, actor)
@@ -46,6 +54,14 @@ function Dialog:update (self)
   end
 end
 
+function Dialog:show (self)
+  self.yOffsetTarget = 0
+end
+
+function Dialog:hide (self)
+  self.yOffsetTarget = dialogHeight + labelHeight
+end
+
 function Dialog:interpolateColor (self, color)
   self.color[1] = self.color[1] + 0.1 * (color[1] - self.color[1])
   self.color[2] = self.color[2] + 0.1 * (color[2] - self.color[2])
@@ -53,8 +69,7 @@ function Dialog:interpolateColor (self, color)
 end
 
 function Dialog:draw (self)
-  local height = 180
-  local top = love.graphics.getHeight() - height
+  local top = love.graphics.getHeight() - dialogHeight + self.yOffset
   local width = love.graphics.getWidth()
 
   if self.actor then
@@ -65,7 +80,7 @@ function Dialog:draw (self)
 
   love.graphics.setColor(self.color[1], self.color[2], self.color[3], 128)
 
-  love.graphics.rectangle("fill", 0, top, width, height)
+  love.graphics.rectangle("fill", 0, top, width, dialogHeight)
   love.graphics.line(0, top, width, top)
 
   love.graphics.setColor(255, 255, 255)
@@ -73,8 +88,6 @@ function Dialog:draw (self)
   love.graphics.print(self.displayText, 40, top + 40)
 
   function drawActorLabel(actor, transition)
-    local labelWidth = 240
-    local labelHeight = 40
     local labelTop = top - labelHeight
     local labelLeft = 0
     local labelDrawTop = labelTop + labelHeight * transition
@@ -114,6 +127,8 @@ function Dialog:draw (self)
       self.transitionActorAnim = 1
     end
   end
+
+  self.yOffset = self.yOffset + 0.4 * (self.yOffsetTarget - self.yOffset)
 end
 
 return Dialog
