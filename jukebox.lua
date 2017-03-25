@@ -31,6 +31,7 @@ function Jukebox:setFile (file)
     self.currentTrack = NO_TRACK
   else
     self.currentTrack = love.audio.newSource(file, 'stream')
+    self.currentTrack:setLooping(true)
   end
 end
 
