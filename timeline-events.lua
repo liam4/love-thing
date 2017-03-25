@@ -192,18 +192,18 @@ function Events:dialog (o)
 
   function event:run ()
     gotContinue = false
-    o.dialog:setText(o.dialog, o.text)
+    o.dialog:setText(o.text)
 
     if o.actor then
-      o.dialog:setActor(o.dialog, o.actor)
+      o.dialog:setActor(o.actor)
     else
-      o.dialog:setActor(o.dialog, nil)
+      o.dialog:setActor(nil)
     end
   end
 
   function event:update ()
     if not o.dialog.isDone then
-      o.dialog:update(o.dialog)
+      o.dialog:update()
     end
 
     return o.dialog.isDone and gotContinue
@@ -225,11 +225,11 @@ function Events:pose (o)
 
   function event:runForwards ()
     oldPose = o.actor.pose
-    o.actor:setPose(o.actor, love.graphics.newImage(o.file))
+    o.actor:setPose(love.graphics.newImage(o.file))
   end
 
   function event:restore ()
-    o.actor:setPose(o.actor, oldPose)
+    o.actor:setPose(oldPose)
   end
 
   return event
@@ -242,11 +242,11 @@ function Events:show (o)
 
   function event:runForwards ()
     wasVisible = o.actor.visible
-    o.actor:show(o.actor)
+    o.actor:show()
   end
 
   function event:restore ()
-    o.actor:setVisible(o.actor, wasVisible)
+    o.actor:setVisible(wasVisible)
   end
 
   return event
@@ -259,11 +259,11 @@ function Events:hide (o)
 
   function event:runForwards ()
     wasVisible = o.actor.visible
-    o.actor:hide(o.actor)
+    o.actor:hide()
   end
 
   function event:restore ()
-    o.actor:setVisible(o.actor, wasVisible)
+    o.actor:setVisible(wasVisible)
   end
 
   return event
@@ -273,7 +273,7 @@ function Events:hideDialog (o)
   local event = Events:createTemplateEvent()
 
   function event:run()
-    o.dialog:hide(o.dialog)
+    o.dialog:hide()
   end
 
   return event
@@ -287,11 +287,11 @@ function Events:setBackdrop (o)
   function event:runForwards ()
     oldImage = o.backdrop.image
 
-    o.backdrop:setImage(o.backdrop, love.graphics.newImage(o.file))
+    o.backdrop:setImage(love.graphics.newImage(o.file))
   end
 
   function event:restore ()
-    o.backdrop:setImage(o.backdrop, oldImage)
+    o.backdrop:setImage(oldImage)
   end
 
   return event

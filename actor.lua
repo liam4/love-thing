@@ -1,10 +1,10 @@
 
 local Actor = {}
 
-function Actor:init (self)
-  self:setPosition(self, 0, 0)
-  self:setColor(self, 128, 128, 128)
-  self:setName(self, 'Unnamed Actor')
+function Actor:init ()
+  self:setPosition(0, 0)
+  self:setColor(128, 128, 128)
+  self:setName('Unnamed Actor')
 
   self.visible = false
 
@@ -15,13 +15,13 @@ function Actor:init (self)
   self.visibilityOffsetX = 0
 end
 
-function Actor:setPosition (self, x, y)
+function Actor:setPosition (x, y)
   -- The position that the actor image is drawn on the screen.
   self.x = x
   self.y = y
 end
 
-function Actor:setPose (self, image)
+function Actor:setPose (image)
   -- The actor image that is drawn to the screen.
 
   if self.visible then
@@ -34,31 +34,31 @@ function Actor:setPose (self, image)
   self.pose = image
 end
 
-function Actor:setColor (self, r, g, b)
+function Actor:setColor (r, g, b)
   -- The color that represents the actor in dialog boxes and such.
 
   self.color = { r, g, b }
 end
 
-function Actor:setName (self, name)
+function Actor:setName (name)
   -- The name that represents the actor. Human-readable, obviously.
 
   self.name = name
 end
 
-function Actor:show (self)
+function Actor:show ()
   self.visible = true
   self.visibilityOffsetX = -80
   self.visibilityGhost = 0
 end
 
-function Actor:hide (self)
+function Actor:hide ()
   self.visible = false
   self.visibilityOffsetX = 0
   self.visibilityGhost = 1
 end
 
-function Actor:setVisible (self, visible)
+function Actor:setVisible (visible)
   if visible then
     self:show(self)
   else
@@ -66,7 +66,7 @@ function Actor:setVisible (self, visible)
   end
 end
 
-function Actor:draw (self)
+function Actor:draw ()
   local mainX = self.x
   local mainGhost = 1
 

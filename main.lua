@@ -17,24 +17,23 @@ function love.load()
   love.graphics.setNewFont("font/Comfortaa-Regular.ttf", 30)
 
   dialog = util:construct(Dialog)
-  dialog:setText(dialog, "Okay..now what?")
 
   backdrop = util:construct(Backdrop)
-  backdrop:setImage(backdrop, love.graphics.newImage("image/trebolbgs4a.png"))
 
   median = util:construct(Actor)
-  median:setName(median, 'Median')
-  median:setColor(median, 132, 9, 93)
-  median:setPosition(median, -120, 40)
+  median:setName('Median')
+  median:setColor(132, 9, 93)
+  median:setPosition(-120, 40)
 
   beleth = util:construct(Actor)
-  beleth:setName(beleth, 'Beleth')
-  beleth:setColor(beleth, 210, 46, 130)
-  beleth:setPosition(beleth, 0, 30)
+  beleth:setName('Beleth')
+  beleth:setColor(210, 46, 130)
+  beleth:setPosition(0, 30)
 
   timeline = util:construct(Timeline)
-  timeline:setEvents(timeline, {
+  timeline:setEvents({
     Events:group{
+      Events:setBackdrop{backdrop=backdrop, file='image/trebolbgs4a.png'},
       Events:pose{actor=beleth, file='image/beleth1.png'},
       Events:pose{actor=median, file='image/median1a.png'},
       Events:show{actor=median},
@@ -68,14 +67,14 @@ function love.load()
 end
 
 function love.update()
-  timeline:update(timeline)
+  timeline:update()
 end
 
 function love.draw()
-  backdrop:draw(backdrop)
-  median:draw(median)
-  beleth:draw(beleth)
-  dialog:draw(dialog)
+  backdrop:draw()
+  median:draw()
+  beleth:draw()
+  dialog:draw()
 end
 
 function love.keypressed (key)
@@ -88,8 +87,8 @@ function love.keypressed (key)
 
   -- Pressing the left arrow key should go back in history.
   if key == "left" then
-    timeline:scheduleBack(timeline)
+    timeline:scheduleBack()
   end
 
-  timeline:gotKeypressed(timeline, key)
+  timeline:gotKeypressed(key)
 end

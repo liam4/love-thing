@@ -9,7 +9,7 @@ local dialogHeight = 180
 local labelWidth = 240
 local labelHeight = 40
 
-function Dialog:init (self)
+function Dialog:init ()
   self.text = ""
   self.displayText = ""
   self.index = 0
@@ -26,7 +26,7 @@ function Dialog:init (self)
   self.lastActor = nil
 end
 
-function Dialog:setText (self, text)
+function Dialog:setText (text)
   self.text = text
   self.displayText = ""
   self.index = 0
@@ -34,7 +34,7 @@ function Dialog:setText (self, text)
   self:show(self)
 end
 
-function Dialog:setActor (self, actor)
+function Dialog:setActor (actor)
   if not (actor == self.lastActor) then
     self.transitionActorAnim = 0
     self.oldActor = self.actor
@@ -44,7 +44,7 @@ function Dialog:setActor (self, actor)
   end
 end
 
-function Dialog:update (self)
+function Dialog:update ()
   if self.index <= string.len(self.text) then
     local nextChar = string.sub(self.text, self.index, self.index)
     self.displayText = (self.displayText .. nextChar)
@@ -54,28 +54,28 @@ function Dialog:update (self)
   end
 end
 
-function Dialog:show (self)
+function Dialog:show ()
   self.yOffsetTarget = 0
 end
 
-function Dialog:hide (self)
+function Dialog:hide ()
   self.yOffsetTarget = dialogHeight + labelHeight
 end
 
-function Dialog:interpolateColor (self, color)
+function Dialog:interpolateColorTo (color)
   self.color[1] = self.color[1] + 0.1 * (color[1] - self.color[1])
   self.color[2] = self.color[2] + 0.1 * (color[2] - self.color[2])
   self.color[3] = self.color[3] + 0.1 * (color[3] - self.color[3])
 end
 
-function Dialog:draw (self)
+function Dialog:draw ()
   local top = love.graphics.getHeight() - dialogHeight + self.yOffset
   local width = love.graphics.getWidth()
 
   if self.actor then
-    self:interpolateColor(self, self.actor.color)
+    self:interpolateColorTo(self.actor.color)
   else
-    self:interpolateColor(self, {128, 128, 128})
+    self:interpolateColorTo({128, 128, 128})
   end
 
   love.graphics.setColor(self.color[1], self.color[2], self.color[3], 128)

@@ -58,17 +58,17 @@ function Timeline:init (self)
   self.historyStack = {}
 end
 
-function Timeline:setEvents (self, events)
+function Timeline:setEvents (events)
   self.events = events
 end
 
-function Timeline:moveForwards (self)
+function Timeline:moveForwards ()
   self.index = self.index + 1
   self.currentEvent = self.events[self.index]
   self.historyStack[#self.historyStack + 1] = self.index
 end
 
-function Timeline:moveBackwards (self)
+function Timeline:moveBackwards ()
   if self.currentEvent then
     self.currentEvent:restore()
   end
@@ -78,7 +78,7 @@ function Timeline:moveBackwards (self)
   self.currentEvent = self.events[self.index]
 end
 
-function Timeline:runNext (self)
+function Timeline:runNext ()
   -- If we've gotten to the end of the event list, we can't continue!
   if self.index >= #self.events then
     return false
@@ -89,7 +89,7 @@ function Timeline:runNext (self)
   self.currentEvent:run()
 end
 
-function Timeline:runPrevious (self)
+function Timeline:runPrevious ()
   -- If we've gotten to the beginning of the event stack, we can't continue!
   if #self.historyStack <= 1 then
     return false
@@ -99,7 +99,7 @@ function Timeline:runPrevious (self)
   self.currentEvent:run()
 end
 
-function Timeline:scheduleBack (self)
+function Timeline:scheduleBack ()
   --[[
 
     Schedules going back in history; it won't actually go back until the
@@ -111,7 +111,7 @@ function Timeline:scheduleBack (self)
   self.willGoBack = true
 end
 
-function Timeline:update (self)
+function Timeline:update ()
   if self.willUpdateNext then
     if self.currentEvent:update() then
       self.willUpdateNext = false
@@ -130,7 +130,7 @@ function Timeline:update (self)
   end
 end
 
-function Timeline:gotKeypressed (self, ...)
+function Timeline:gotKeypressed (...)
   if self.currentEvent then
     self.currentEvent:gotKeypressed(...)
   end
