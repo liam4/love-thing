@@ -3,10 +3,15 @@ local util = require 'util'
 local Actor = require 'actor'
 local Backdrop = require 'backdrop'
 local Dialog = require 'dialog'
-local Timeline = require 'event-timeline'
 local Events = require 'timeline-events'
+local Jukebox = require 'jukebox'
+local Timeline = require 'event-timeline'
 
 function love.load()
+  jukebox = util:construct(Jukebox)
+  jukebox:setFile('sound/andre_4.mp3')
+  jukebox:play()
+
   love.window.setMode(1024, 800)
   love.mouse.setVisible(false)
   love.graphics.setNewFont("font/Comfortaa-Regular.ttf", 30)
