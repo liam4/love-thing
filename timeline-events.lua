@@ -75,7 +75,7 @@ function Events:createTemplateEvent ()
   return event
 end
 
-function Events:waitFrames (o)
+function Events:waitFrames (frames)
   --[[
 
     Quick example event that waits for a number of frames to be finished
@@ -88,7 +88,7 @@ function Events:waitFrames (o)
   local framesToWait = 0
 
   function event:run ()
-    framesToWait = o.frames
+    framesToWait = frames
   end
 
   function event:update ()
@@ -185,28 +185,28 @@ function Events:group (events)
   return event
 end
 
-function Events:dialog (o)
+function Events:speak (actor, dialog, text)
   local event = Events:createTemplateEvent()
 
   local gotContinue = false
 
   function event:run ()
     gotContinue = false
-    o.dialog:setText(o.text)
+    dialog:setText(text)
 
-    if o.actor then
-      o.dialog:setActor(o.actor)
+    if actor then
+      dialog:setActor(actor)
     else
-      o.dialog:setActor(nil)
+      dialog:setActor(nil)
     end
   end
 
   function event:update ()
-    if not o.dialog.isDone then
-      o.dialog:update()
+    if not dialog.isDone then
+      dialog:update()
     end
 
-    return o.dialog.isDone and gotContinue
+    return dialog.isDone and gotContinue
   end
 
   function event:gotKeypressed (key)
@@ -218,118 +218,118 @@ function Events:dialog (o)
   return event
 end
 
-function Events:pose (o)
+function Events:poseActor (actor, file)
   local oldPose = nil
 
   local event = Events:createTemplateEvent()
 
   function event:runForwards ()
-    oldPose = o.actor.pose
-    o.actor:setPose(love.graphics.newImage(o.file))
+    oldPose = actor.pose
+    actor:setPose(love.graphics.newImage(file))
   end
 
   function event:restore ()
-    o.actor:setPose(oldPose)
+    actor:setPose(oldPose)
   end
 
   return event
 end
 
-function Events:show (o)
+function Events:showActor (actor)
   local wasVisible = nil
 
   local event = Events:createTemplateEvent()
 
   function event:runForwards ()
-    wasVisible = o.actor.visible
-    o.actor:show()
+    wasVisible = actor.visible
+    actor:show()
   end
 
   function event:restore ()
-    o.actor:setVisible(wasVisible)
+    actor:setVisible(wasVisible)
   end
 
   return event
 end
 
-function Events:hide (o)
+function Events:hideActor (actor)
   local wasVisible = nil
 
   local event = Events:createTemplateEvent()
 
   function event:runForwards ()
-    wasVisible = o.actor.visible
-    o.actor:hide()
+    wasVisible = actor.visible
+    actor:hide()
   end
 
   function event:restore ()
-    o.actor:setVisible(wasVisible)
+    actor:setVisible(wasVisible)
   end
 
   return event
 end
 
-function Events:hideDialog (o)
+function Events:hideDialog (dialog)
   local event = Events:createTemplateEvent()
 
   function event:run ()
-    o.dialog:hide()
+    dialog:hide()
   end
 
   return event
 end
 
-function Events:setBackdrop (o)
+function Events:setBackdrop (backdrop, file)
   local event = Events:createTemplateEvent()
 
   local oldImage = nil
 
   function event:runForwards ()
-    oldImage = o.backdrop.image
+    oldImage = backdrop.image
 
-    o.backdrop:setImage(love.graphics.newImage(o.file))
+    backdrop:setImage(love.graphics.newImage(file))
   end
 
   function event:restore ()
-    o.backdrop:setImage(oldImage)
+    backdrop:setImage(oldImage)
   end
 
   return event
 end
 
-function Events:fadeSetMusic (o)
+function Events:fadeSetMusic (jukebox, file)
   local event = Events:createTemplateEvent()
 
   local oldFile = nil
 
   function event:runForwards ()
-    oldFile = o.jukebox:getFile()
+    oldFile = jukebox:getFile()
 
-    o.jukebox:fadePlayFile(o.file)
+    jukebox:fadePlayFile(file)
   end
 
   function event:restore ()
-    o.jukebox:fadePlayFile(oldFile)
+    jukebox:fadePlayFile(oldFile)
   end
 
   return event
 end
 
-function Events:setMusic (o)
+function Events:setMusic (jukebox, file)
   local event = Events:createTemplateEvent()
 
   local oldFile = nil
 
   function event:runForwards ()
-    oldFile = o.jukebox:getFile()
+    oldFile = jukebox:getFile()
 
-    o.jukebox:setFile(o.file)
-    o.jukebox:play()
+    jukebox:setFile(file)
+    jukebox:play()
   end
 
   function event:restore ()
-    o.jukebox:setFile(oldFile)
-    o.jukebox:play()
+    jukebox:setFile(oldFile)
+    jukebox:play()
   end
 
   return event

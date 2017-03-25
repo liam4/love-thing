@@ -31,37 +31,37 @@ function love.load()
   timeline = util:construct(Timeline)
   timeline:setEvents({
     Events:group{
-      Events:setMusic{jukebox=jukebox, file='sound/andre_4.mp3'},
-      Events:setBackdrop{backdrop=backdrop, file='image/trebolbgs4a.png'},
-      Events:pose{actor=beleth, file='image/beleth1.png'},
-      Events:pose{actor=median, file='image/median1a.png'},
-      Events:show{actor=median},
-      Events:dialog{actor=median, dialog=dialog, text='Hello..?'}
+      Events:setMusic(jukebox, 'sound/andre_4.mp3'),
+      Events:setBackdrop(backdrop, 'image/trebolbgs4a.png'),
+      Events:poseActor(beleth, 'image/beleth1.png'),
+      Events:poseActor(median, 'image/median1a.png'),
+      Events:showActor(median),
+      Events:speak(median, dialog, 'Hello..?')
     },
     Events:group{
-      Events:pose{actor=median, file='image/median1.png'},
-      Events:dialog{actor=median, dialog=dialog, text='Nobody\'s home..'}
+      Events:poseActor(median, 'image/median1.png'),
+      Events:speak(median, dialog, 'Nobody\'s home..')
     },
     Events:group{
-      Events:hide{actor=median},
-      Events:hideDialog{dialog=dialog},
+      Events:hideActor(median),
+      Events:hideDialog(dialog),
       Events:waitForInput()
     },
     Events:group{
-      Events:show{actor=beleth},
-      Events:dialog{actor=beleth, dialog=dialog, text='Wait, what?'}
+      Events:showActor(beleth),
+      Events:speak(beleth, dialog, 'Wait, what?')
     },
     Events:group{
-      Events:pose{actor=beleth, file='image/beleth1c.png'},
-      Events:dialog{actor=beleth, dialog=dialog, text='What was that..?'}
+      Events:poseActor(beleth, 'image/beleth1c.png'),
+      Events:speak(beleth, dialog, 'What was that..?')
     },
     Events:group{
-      Events:pose{actor=median, file='image/median2.png'},
-      Events:hide{actor=beleth},
-      Events:show{actor=median},
-      Events:setBackdrop{backdrop=backdrop, file='image/trebolbgs4b.png'},
-      Events:setMusic{jukebox=jukebox, file='sound/sleepy_med.mp3'},
-      Events:dialog{actor=median, dialog=dialog, text='Where could they have gotten to..?'}
+      Events:poseActor(median, 'image/median2.png'),
+      Events:hideActor(beleth),
+      Events:showActor(median),
+      Events:setBackdrop(backdrop, 'image/trebolbgs4b.png'),
+      Events:setMusic(jukebox, 'sound/sleepy_med.mp3'),
+      Events:speak(median, dialog, 'Where could they have gotten to..?')
     }
   })
 end
