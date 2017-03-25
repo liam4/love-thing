@@ -272,7 +272,7 @@ end
 function Events:hideDialog (o)
   local event = Events:createTemplateEvent()
 
-  function event:run()
+  function event:run ()
     o.dialog:hide()
   end
 
@@ -292,6 +292,44 @@ function Events:setBackdrop (o)
 
   function event:restore ()
     o.backdrop:setImage(oldImage)
+  end
+
+  return event
+end
+
+function Events:fadeSetMusic (o)
+  local event = Events:createTemplateEvent()
+
+  local oldFile = nil
+
+  function event:runForwards ()
+    oldFile = o.jukebox:getFile()
+
+    o.jukebox:fadePlayFile(o.file)
+  end
+
+  function event:restore ()
+    o.jukebox:fadePlayFile(oldFile)
+  end
+
+  return event
+end
+
+function Events:setMusic (o)
+  local event = Events:createTemplateEvent()
+
+  local oldFile = nil
+
+  function event:runForwards ()
+    oldFile = o.jukebox:getFile()
+
+    o.jukebox:setFile(o.file)
+    o.jukebox:play()
+  end
+
+  function event:restore ()
+    o.jukebox:setFile(oldFile)
+    o.jukebox:play()
   end
 
   return event

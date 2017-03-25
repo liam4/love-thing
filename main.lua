@@ -9,8 +9,6 @@ local Timeline = require 'event-timeline'
 
 function love.load()
   jukebox = util:construct(Jukebox)
-  jukebox:setFile('sound/andre_4.mp3')
-  jukebox:play()
 
   love.window.setMode(1024, 800)
   love.mouse.setVisible(false)
@@ -33,6 +31,7 @@ function love.load()
   timeline = util:construct(Timeline)
   timeline:setEvents({
     Events:group{
+      Events:setMusic{jukebox=jukebox, file='sound/andre_4.mp3'},
       Events:setBackdrop{backdrop=backdrop, file='image/trebolbgs4a.png'},
       Events:pose{actor=beleth, file='image/beleth1.png'},
       Events:pose{actor=median, file='image/median1a.png'},
@@ -61,6 +60,7 @@ function love.load()
       Events:hide{actor=beleth},
       Events:show{actor=median},
       Events:setBackdrop{backdrop=backdrop, file='image/trebolbgs4b.png'},
+      Events:setMusic{jukebox=jukebox, file='sound/sleepy_med.mp3'},
       Events:dialog{actor=median, dialog=dialog, text='Where could they have gotten to..?'}
     }
   })
@@ -68,6 +68,7 @@ end
 
 function love.update()
   timeline:update()
+  jukebox:update()
 end
 
 function love.draw()
