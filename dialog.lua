@@ -87,7 +87,7 @@ function Dialog:draw ()
   love.graphics.setFont(speechFont)
   love.graphics.print(self.displayText, 40, top + 40)
 
-  function drawActorLabel(actor, transition)
+  function drawActorLabel (actor, transition)
     local labelTop = top - labelHeight
     local labelLeft = 0
     local labelDrawTop = labelTop + labelHeight * transition

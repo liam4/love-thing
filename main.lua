@@ -7,7 +7,7 @@ local Events = require 'timeline-events'
 local Jukebox = require 'jukebox'
 local Timeline = require 'event-timeline'
 
-function love.load()
+function love.load ()
   jukebox = util:construct(Jukebox)
 
   love.window.setMode(1024, 800)
@@ -66,12 +66,12 @@ function love.load()
   })
 end
 
-function love.update()
+function love.update ()
   timeline:update()
   jukebox:update()
 end
 
-function love.draw()
+function love.draw ()
   backdrop:draw()
   median:draw()
   beleth:draw()
