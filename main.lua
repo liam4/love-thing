@@ -12,7 +12,6 @@ function love.load ()
 
   love.window.setMode(1024, 800)
   love.mouse.setVisible(false)
-  love.graphics.setNewFont('font/Comfortaa-Regular.ttf', 30)
 
   dialog = util:construct(Dialog)
 
