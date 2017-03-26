@@ -210,7 +210,7 @@ function Events:speak (actor, dialog, text)
   end
 
   function event:gotKeypressed (key)
-    if key == "space" then
+    if key == 'space' then
       gotContinue = true
     end
   end

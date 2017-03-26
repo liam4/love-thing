@@ -12,7 +12,7 @@ function love.load ()
 
   love.window.setMode(1024, 800)
   love.mouse.setVisible(false)
-  love.graphics.setNewFont("font/Comfortaa-Regular.ttf", 30)
+  love.graphics.setNewFont('font/Comfortaa-Regular.ttf', 30)
 
   dialog = util:construct(Dialog)
 
@@ -80,14 +80,14 @@ end
 
 function love.keypressed (key)
   -- Pressing the escape key should toggle the cursor visibility.
-  if key == "escape" then
+  if key == 'escape' then
     local state = not love.mouse.isVisible()
     love.mouse.setVisible(state)
     return
   end
 
   -- Pressing the left arrow key should go back in history.
-  if key == "left" then
+  if key == 'left' then
     timeline:scheduleBack()
   end
 
